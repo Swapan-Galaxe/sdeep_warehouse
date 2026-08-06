@@ -25,8 +25,12 @@ def generate_pkce():
     }
 
 
-def build_authorize_url(config, pkce=None):
+def build_authorize_url(config, pkce):
     """Build Salesforce OAuth authorize URL."""
+    if pkce is None:
+        raise SalesforceAuthError(
+            "PKCE parameters are required; generate them with generate_pkce()"
+        )
     base = config["login_url"].rstrip("/")
     params = {
         "response_type": "code",
@@ -34,10 +38,9 @@ def build_authorize_url(config, pkce=None):
         "redirect_uri": config["redirect_uri"],
         "scope": config["scopes"],
         "state": secrets.token_urlsafe(16),
+        "code_challenge": pkce["code_challenge"],
+        "code_challenge_method": pkce["code_challenge_method"],
     }
-    if pkce:
-        params["code_challenge"] = pkce["code_challenge"]
-        params["code_challenge_method"] = pkce["code_challenge_method"]
     return f"{base}/services/oauth2/authorize?{_urlparse.urlencode(params)}"
 
 

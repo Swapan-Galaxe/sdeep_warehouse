@@ -14,7 +14,7 @@ from auth_helper import (
 
 
 def test_build_authorize_url_includes_all_parameters():
-    """Given config, build_authorize_url returns a URL with all required parameters."""
+    """Given config and PKCE, build_authorize_url returns a URL with all required parameters."""
     from urllib.parse import parse_qs, urlparse
 
     config = {
@@ -23,7 +23,8 @@ def test_build_authorize_url_includes_all_parameters():
         "redirect_uri": "http://localhost:8000/auth/callback",
         "scopes": "api refresh_token",
     }
-    url = build_authorize_url(config)
+    pkce = generate_pkce()
+    url = build_authorize_url(config, pkce=pkce)
     parsed = urlparse(url)
     query = parse_qs(parsed.query)
 
@@ -35,6 +36,8 @@ def test_build_authorize_url_includes_all_parameters():
     assert query["redirect_uri"] == ["http://localhost:8000/auth/callback"]
     assert query["scope"] == ["api refresh_token"]
     assert "state" in query and query["state"][0]
+    assert query["code_challenge_method"] == ["S256"]
+    assert query["code_challenge"] == [pkce["code_challenge"]]
 
 
 def test_exchange_code_returns_tokens_on_success():
