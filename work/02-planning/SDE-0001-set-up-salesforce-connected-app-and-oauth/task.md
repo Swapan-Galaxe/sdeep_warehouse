@@ -1,3 +1,27 @@
++++
+
+[sources]
+epic = "explore/epics/salesforce-sales-intelligence-epic-01-salesforce-data-access.md"
+documents = [
+    "explore/decisions/salesforce-sales-intelligence-adr-003-salesforce-oauth.md",
+    "explore/prds/salesforce-sales-intelligence-prd.md",
+    "explore/hlds/salesforce-sales-intelligence-hld.md",
+    "explore/explore-salesforce-sales-intelligence/risks.md"
+]
+
+[links]
+blocks = [
+    "work/02-planning/SDE-0002.md",
+    "work/02-planning/SDE-0003.md"
+]
+related = [
+    "work/02-planning/SDE-0010.md"
+]
+parent = []
+child = []
+
++++
+
 # SDE-0001: Set up Salesforce Connected App and OAuth
 
 ## Description
