@@ -89,7 +89,28 @@ def test_exchange_code_raises_on_error():
 
 def test_refresh_token_returns_new_access_token():
     """Given refresh token, refresh_access_token returns a new access token."""
-    pytest.fail("Test skeleton - not implemented")
+    from unittest.mock import MagicMock, patch
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "client_secret": "secret",
+    }
+    mock_resp = MagicMock()
+    mock_resp.ok = True
+    mock_resp.json.return_value = {
+        "access_token": "newtoken",
+        "token_type": "Bearer",
+    }
+
+    with patch("auth_helper.requests.post", return_value=mock_resp) as mock_post:
+        result = refresh_access_token(config, "rtoken")
+
+    assert result["access_token"] == "newtoken"
+    args, kwargs = mock_post.call_args
+    assert args[0] == "https://test.salesforce.com/services/oauth2/token"
+    assert kwargs["data"]["grant_type"] == "refresh_token"
+    assert kwargs["data"]["refresh_token"] == "rtoken"
 
 
 def test_load_config_missing_variable_raises():

@@ -44,7 +44,19 @@ def exchange_code(config, code):
 
 def refresh_access_token(config, refresh_token):
     """Use a refresh token to obtain a new access token."""
-    raise NotImplementedError
+    base = config["login_url"].rstrip("/")
+    url = f"{base}/services/oauth2/token"
+    payload = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": config["client_id"],
+        "client_secret": config["client_secret"],
+    }
+    response = requests.post(url, data=payload)
+    body = response.json()
+    if not response.ok:
+        raise SalesforceAuthError(body.get("error_description", body.get("error", "Token refresh failed")))
+    return body
 
 
 def load_config(env=None):
