@@ -38,7 +38,31 @@ def test_build_authorize_url_includes_all_parameters():
 
 def test_exchange_code_returns_tokens_on_success():
     """Given valid code, exchange_code posts to token endpoint and returns tokens."""
-    pytest.fail("Test skeleton - not implemented")
+    from unittest.mock import MagicMock, patch
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "client_secret": "secret",
+        "redirect_uri": "http://localhost:8000/auth/callback",
+    }
+    mock_resp = MagicMock()
+    mock_resp.ok = True
+    mock_resp.json.return_value = {
+        "access_token": "atoken",
+        "refresh_token": "rtoken",
+    }
+
+    with patch("auth_helper.requests.post", return_value=mock_resp) as mock_post:
+        result = exchange_code(config, "authcode")
+
+    assert result["access_token"] == "atoken"
+    assert result["refresh_token"] == "rtoken"
+    mock_post.assert_called_once()
+    args, kwargs = mock_post.call_args
+    assert args[0] == "https://test.salesforce.com/services/oauth2/token"
+    assert kwargs["data"]["grant_type"] == "authorization_code"
+    assert kwargs["data"]["code"] == "authcode"
 
 
 def test_exchange_code_raises_on_error():

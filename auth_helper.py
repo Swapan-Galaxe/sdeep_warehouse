@@ -4,6 +4,8 @@ import os
 import secrets
 import urllib.parse as _urlparse
 
+import requests
+
 
 class SalesforceAuthError(Exception):
     """Raised when Salesforce OAuth configuration or token exchange fails."""
@@ -24,7 +26,20 @@ def build_authorize_url(config):
 
 def exchange_code(config, code):
     """Exchange authorization code for access and refresh tokens."""
-    raise NotImplementedError
+    base = config["login_url"].rstrip("/")
+    url = f"{base}/services/oauth2/token"
+    payload = {
+        "grant_type": "authorization_code",
+        "code": code,
+        "client_id": config["client_id"],
+        "client_secret": config["client_secret"],
+        "redirect_uri": config["redirect_uri"],
+    }
+    response = requests.post(url, data=payload)
+    body = response.json()
+    if not response.ok:
+        raise SalesforceAuthError(body.get("error_description", body.get("error", "Token exchange failed")))
+    return body
 
 
 def refresh_access_token(config, refresh_token):
