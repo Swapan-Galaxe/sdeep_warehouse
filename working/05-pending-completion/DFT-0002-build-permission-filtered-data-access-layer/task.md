@@ -13,7 +13,7 @@ child = []
 planned = ""
 spec_complete = ""
 implemented = "2026-08-07"
-impl_complete = ""
+impl_complete = "2026-08-07"
 completed = ""
 
 [assignments]
