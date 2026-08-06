@@ -3,6 +3,7 @@
 import pytest
 
 from auth_helper import (
+    SalesforceAuthError,
     build_authorize_url,
     build_smoke_query,
     exchange_code,
@@ -33,7 +34,8 @@ def test_refresh_token_returns_new_access_token():
 
 def test_load_config_missing_variable_raises():
     """Given missing env var, load_config raises an error."""
-    pytest.fail("Test skeleton - not implemented")
+    with pytest.raises(SalesforceAuthError):
+        load_config({})
 
 
 def test_build_soql_smoke_query():
