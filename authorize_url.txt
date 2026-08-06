@@ -1,1 +1,0 @@
-https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9YDQS5WtC11rI9cLwkj23otwr.9DXJIkP4kgDM.Pn6hWnFj0gGfZR8v.mwLEqynP6RHad7QkvRv7GCx8H&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Fcallback&scope=api+refresh_token&state=WAhhJM5u4xSrPTfhmbfUoA&code_challenge=yWU0ZaoNDBK_CMdf_OSxno9SvACLeqnLSlBwZcGwVHQ&code_challenge_method=S256
