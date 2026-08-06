@@ -93,6 +93,8 @@ def main():
         return 1
 
     tokens = exchange_code(config, code, code_verifier=pkce["code_verifier"])
+    instance_url = tokens.get("instance_url", config["login_url"]).rstrip("/")
+    print("Instance URL:", instance_url)
     print("Access token:", tokens.get("access_token")[:20] + "...")
     print("Refresh token:", tokens.get("refresh_token", "")[:20] + "...")
 
@@ -102,10 +104,12 @@ def main():
 
     print("Running smoke SOQL query...")
     query = build_smoke_query()
-    url = f"{config['login_url'].rstrip('/')}/services/data/v62.0/query"
+    url = f"{instance_url}/services/data/v62.0/query"
     headers = {"Authorization": f"Bearer {tokens['access_token']}"}
     response = requests.get(url, headers=headers, params={"q": query})
-    response.raise_for_status()
+    if not response.ok:
+        print("SOQL query failed:", response.status_code, response.text)
+        return 1
     data = response.json()
     print("Total records:", data.get("totalSize"))
     print("Done.")
