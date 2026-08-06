@@ -54,4 +54,4 @@ def load_config(env=None):
 
 def build_smoke_query():
     """Return a safe SOQL query for validating token access."""
-    raise NotImplementedError
+    return "SELECT Id FROM User LIMIT 1"

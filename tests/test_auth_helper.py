@@ -59,4 +59,7 @@ def test_load_config_missing_variable_raises():
 
 def test_build_soql_smoke_query():
     """build_smoke_query returns a valid SOQL string."""
-    pytest.fail("Test skeleton - not implemented")
+    query = build_smoke_query()
+    assert "SELECT" in query
+    assert "FROM" in query
+    assert "LIMIT 1" in query
