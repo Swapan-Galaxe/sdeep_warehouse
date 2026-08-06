@@ -1,16 +1,20 @@
-"""Manual end-to-end OAuth smoke test for SDE-0001.
+"""Automated end-to-end OAuth smoke test for SDE-0001.
 
 Usage:
     copy .env.example .env
     # fill in values, then:
     py tests/test_oauth.py
 
-The script prints the Salesforce authorize URL, waits for the authorization
-code from the callback, exchanges it for tokens, and runs a smoke SOQL query.
+The script starts a local callback server, prints the Salesforce authorize URL,
+waits for the browser to redirect back, exchanges the code for tokens, and runs
+a smoke SOQL query.
 """
 
 import os
 import sys
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import parse_qs, urlparse
 
 import requests
 
@@ -39,18 +43,53 @@ def _load_dotenv(path=".env"):
             os.environ.setdefault(key, value)
 
 
+class _CallbackHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        parsed = urlparse(self.path)
+        if parsed.path == "/auth/callback":
+            query = parse_qs(parsed.query)
+            self.server.auth_code = query.get("code", [None])[0]
+            self.server.event.set()
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Authorization successful. You may close this tab.")
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def log_message(self, format, *args):
+        pass
+
+
+def _start_callback_server():
+    HTTPServer.allow_reuse_address = True
+    server = HTTPServer(("localhost", 8000), _CallbackHandler)
+    server.event = threading.Event()
+    server.auth_code = None
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    return server, thread
+
+
 def main():
     _load_dotenv()
     config = load_config()
     pkce = generate_pkce()
 
+    server, thread = _start_callback_server()
+
     print("Open this URL in your browser and authorize the Connected App:")
     print(build_authorize_url(config, pkce=pkce))
     print()
+    print("Waiting for callback on http://localhost:8000/auth/callback ...")
 
-    code = input("Paste the authorization code from the callback: ").strip()
+    server.event.wait()
+    server.shutdown()
+    thread.join()
+
+    code = server.auth_code
     if not code:
-        print("No code provided; exiting.")
+        print("No authorization code received; exiting.")
         return 1
 
     tokens = exchange_code(config, code, code_verifier=pkce["code_verifier"])
