@@ -67,7 +67,24 @@ def test_exchange_code_returns_tokens_on_success():
 
 def test_exchange_code_raises_on_error():
     """Given invalid code, exchange_code raises SalesforceAuthError."""
-    pytest.fail("Test skeleton - not implemented")
+    from unittest.mock import MagicMock, patch
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "client_secret": "secret",
+        "redirect_uri": "http://localhost:8000/auth/callback",
+    }
+    mock_resp = MagicMock()
+    mock_resp.ok = False
+    mock_resp.json.return_value = {
+        "error": "invalid_grant",
+        "error_description": "invalid authorization code",
+    }
+
+    with patch("auth_helper.requests.post", return_value=mock_resp):
+        with pytest.raises(SalesforceAuthError):
+            exchange_code(config, "badcode")
 
 
 def test_refresh_token_returns_new_access_token():
