@@ -20,6 +20,7 @@ from auth_helper import (
     build_authorize_url,
     build_smoke_query,
     exchange_code,
+    generate_pkce,
     load_config,
     refresh_access_token,
 )
@@ -41,9 +42,10 @@ def _load_dotenv(path=".env"):
 def main():
     _load_dotenv()
     config = load_config()
+    pkce = generate_pkce()
 
     print("Open this URL in your browser and authorize the Connected App:")
-    print(build_authorize_url(config))
+    print(build_authorize_url(config, pkce=pkce))
     print()
 
     code = input("Paste the authorization code from the callback: ").strip()
@@ -51,7 +53,7 @@ def main():
         print("No code provided; exiting.")
         return 1
 
-    tokens = exchange_code(config, code)
+    tokens = exchange_code(config, code, code_verifier=pkce["code_verifier"])
     print("Access token:", tokens.get("access_token")[:20] + "...")
     print("Refresh token:", tokens.get("refresh_token", "")[:20] + "...")
 

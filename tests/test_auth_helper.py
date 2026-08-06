@@ -7,6 +7,7 @@ from auth_helper import (
     build_authorize_url,
     build_smoke_query,
     exchange_code,
+    generate_pkce,
     load_config,
     refresh_access_token,
 )
@@ -125,3 +126,45 @@ def test_build_soql_smoke_query():
     assert "SELECT" in query
     assert "FROM" in query
     assert "LIMIT 1" in query
+
+
+def test_build_authorize_url_with_pkce():
+    """Given PKCE pair, build_authorize_url includes code_challenge and method."""
+    from urllib.parse import parse_qs, urlparse
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "redirect_uri": "http://localhost:8000/auth/callback",
+        "scopes": "api refresh_token",
+    }
+    pkce = generate_pkce()
+    url = build_authorize_url(config, pkce=pkce)
+    query = parse_qs(urlparse(url).query)
+
+    assert query["code_challenge_method"] == ["S256"]
+    assert query["code_challenge"] == [pkce["code_challenge"]]
+
+
+def test_exchange_code_includes_code_verifier():
+    """Given code_verifier, exchange_code posts it with the token request."""
+    from unittest.mock import MagicMock, patch
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "client_secret": "secret",
+        "redirect_uri": "http://localhost:8000/auth/callback",
+    }
+    mock_resp = MagicMock()
+    mock_resp.ok = True
+    mock_resp.json.return_value = {
+        "access_token": "atoken",
+        "refresh_token": "rtoken",
+    }
+
+    with patch("auth_helper.requests.post", return_value=mock_resp) as mock_post:
+        exchange_code(config, "authcode", code_verifier="verifier123")
+
+    args, kwargs = mock_post.call_args
+    assert kwargs["data"]["code_verifier"] == "verifier123"

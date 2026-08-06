@@ -1,5 +1,7 @@
 """Salesforce OAuth helper stubs for SDE-0001."""
 
+import base64
+import hashlib
 import os
 import secrets
 import urllib.parse as _urlparse
@@ -11,7 +13,19 @@ class SalesforceAuthError(Exception):
     """Raised when Salesforce OAuth configuration or token exchange fails."""
 
 
-def build_authorize_url(config):
+def generate_pkce():
+    """Generate a PKCE verifier/challenge pair for Salesforce OAuth."""
+    verifier = secrets.token_urlsafe(96)
+    digest = hashlib.sha256(verifier.encode("utf-8")).digest()
+    challenge = base64.urlsafe_b64encode(digest).rstrip(b"=")
+    return {
+        "code_verifier": verifier,
+        "code_challenge": challenge.decode("utf-8"),
+        "code_challenge_method": "S256",
+    }
+
+
+def build_authorize_url(config, pkce=None):
     """Build Salesforce OAuth authorize URL."""
     base = config["login_url"].rstrip("/")
     params = {
@@ -21,10 +35,13 @@ def build_authorize_url(config):
         "scope": config["scopes"],
         "state": secrets.token_urlsafe(16),
     }
+    if pkce:
+        params["code_challenge"] = pkce["code_challenge"]
+        params["code_challenge_method"] = pkce["code_challenge_method"]
     return f"{base}/services/oauth2/authorize?{_urlparse.urlencode(params)}"
 
 
-def exchange_code(config, code):
+def exchange_code(config, code, code_verifier=None):
     """Exchange authorization code for access and refresh tokens."""
     base = config["login_url"].rstrip("/")
     url = f"{base}/services/oauth2/token"
@@ -35,6 +52,8 @@ def exchange_code(config, code):
         "client_secret": config["client_secret"],
         "redirect_uri": config["redirect_uri"],
     }
+    if code_verifier:
+        payload["code_verifier"] = code_verifier
     response = requests.post(url, data=payload)
     body = response.json()
     if not response.ok:
