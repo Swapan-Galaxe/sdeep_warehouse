@@ -4,5 +4,5 @@ enabled = true
 
 [project]
 name = "sdeep_warehouse"
-task_id_prefix = "SDE"
+task_id_prefix = "DFT"
 task_id_format = "0000"

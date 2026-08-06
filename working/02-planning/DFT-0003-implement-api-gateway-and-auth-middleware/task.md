@@ -1,0 +1,42 @@
++++
+[sources]
+epic = "explore/epics/salesforce-sales-intelligence-epic-02-conversational-query-orchestrator.md"
+documents = []
+
+[links]
+blocks = []
+related = []
+parent = []
+child = []
+
+[workflow]
+planned = ""
+spec_complete = ""
+implemented = ""
+impl_complete = ""
+completed = ""
+
+[assignments]
+planning = ""
+implementation = ""
+completed = ""
++++
+# DFT-0003: Implement API gateway and auth middleware
+
+## Description
+
+Build the API gateway that receives queries, validates Salesforce OAuth tokens, and routes requests to the orchestrator.
+
+## Acceptance Criteria
+
+- Unauthenticated requests are rejected. `[FACT — PRD]`
+- Authenticated requests include user context in downstream calls. `[FACT — PRD R9]`
+- Rate limiting is enforced per user. `[OPINION]`
+
+## Epic
+
+- `explore/epics/salesforce-sales-intelligence-epic-02-conversational-query-orchestrator.md`
+
+## Priority
+
+High

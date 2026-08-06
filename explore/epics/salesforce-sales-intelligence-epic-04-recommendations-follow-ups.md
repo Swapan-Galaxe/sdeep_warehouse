@@ -21,5 +21,5 @@ Generate and present follow-up action recommendations and advisory pricing guida
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0009.md` — Build recommendation engine with citations
-- `work/01-pending-planning/SDE-0010.md` — Implement pricing policy guardrails and approval workflow
+- `working/01-pending-planning/DFT-0009.md` — Build recommendation engine with citations
+- `working/01-pending-planning/DFT-0010.md` — Implement pricing policy guardrails and approval workflow

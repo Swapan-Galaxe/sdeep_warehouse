@@ -20,5 +20,5 @@ Ensure every insight is explainable, cite source records, log all queries and ac
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0011.md` — Implement citations, confidence, and audit logging
-- `work/01-pending-planning/SDE-0012.md` — Accessibility and error-recovery implementation
+- `working/01-pending-planning/DFT-0011.md` — Implement citations, confidence, and audit logging
+- `working/01-pending-planning/DFT-0012.md` — Accessibility and error-recovery implementation

@@ -21,5 +21,5 @@ Build the authenticated, permission-filtered Salesforce data access layer so the
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0001.md` — Set up Salesforce Connected App and OAuth
-- `work/01-pending-planning/SDE-0002.md` — Build permission-filtered data access layer
+- `working/01-pending-planning/DFT-0001.md` — Set up Salesforce Connected App and OAuth
+- `working/01-pending-planning/DFT-0002.md` — Build permission-filtered data access layer

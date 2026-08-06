@@ -21,4 +21,4 @@ Add semantic search over an approved corpus of conversations and documents to fi
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0013.md` — Validate and ingest RAG corpus (conditional)
+- `working/01-pending-planning/DFT-0013.md` — Validate and ingest RAG corpus (conditional)

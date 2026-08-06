@@ -20,6 +20,6 @@ Deliver prioritised lead ranking, opportunity risk/health detection, and pipelin
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0006.md` — Implement lead scoring and prioritisation
-- `work/01-pending-planning/SDE-0007.md` — Implement opportunity risk/health detection
-- `work/01-pending-planning/SDE-0008.md` — Implement pipeline forecasting
+- `working/01-pending-planning/DFT-0006.md` — Implement lead scoring and prioritisation
+- `working/01-pending-planning/DFT-0007.md` — Implement opportunity risk/health detection
+- `working/01-pending-planning/DFT-0008.md` — Implement pipeline forecasting

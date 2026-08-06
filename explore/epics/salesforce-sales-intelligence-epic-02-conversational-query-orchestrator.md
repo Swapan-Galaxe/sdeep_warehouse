@@ -21,6 +21,6 @@ Implement the natural-language query interface, API gateway, and agent orchestra
 
 ## Linked Tasks
 
-- `work/01-pending-planning/SDE-0003.md` — Implement API gateway and auth middleware
-- `work/01-pending-planning/SDE-0004.md` — Build conversational UI
-- `work/01-pending-planning/SDE-0005.md` — Implement agent orchestrator
+- `working/01-pending-planning/DFT-0003.md` — Implement API gateway and auth middleware
+- `working/01-pending-planning/DFT-0004.md` — Build conversational UI
+- `working/01-pending-planning/DFT-0005.md` — Implement agent orchestrator

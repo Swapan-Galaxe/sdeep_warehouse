@@ -96,7 +96,7 @@ explore/                        # Explore phase — discovery and specification
 govern/                         # Govern phase — planning and implementation
   releases/                     # Release documentation
 evolve/                         # Evolve phase — production optimization
-work/                           # Active task workflow
+working/                           # Active task workflow
   01-pending-planning/          # Tasks awaiting planning
   02-planning/                  # Tasks being planned
   03-pending-implementation/    # Tasks awaiting implementation
@@ -105,7 +105,7 @@ work/                           # Active task workflow
   06-completed/                 # Completed tasks
 ```
 
-Task IDs are allocated sequentially by scanning every stage directory under `work/`,
+Task IDs are allocated sequentially by scanning every stage directory under `working/`,
 so a task keeps its ID as it moves between stages. The ID prefix and zero-padded
 width are defined by `task_id_prefix` / `task_id_format` in `.flow/config.toml`
 (e.g. `DFT-0000` → `DFT-0001`, `DFT-0002`, ...).
@@ -133,7 +133,7 @@ Never, without explicit instruction from the human:
 
 - Rename, renumber, or recycle existing task IDs.
 - Change `task_id_prefix` or `task_id_format` in `.flow/config.toml`.
-- Move a task between `work/` stages by hand — use `dft task` commands.
+- Move a task between `working/` stages by hand — use `dft task` commands.
 - Install, update, or remove skills outside `dft skills …`, or act on skills that are not present under `skills/`.
 - Delete phase artefacts under `signal/`, `explore/`, `govern/`, or `evolve/`.
 - Commit secrets, tokens, credentials, or absolute local paths.

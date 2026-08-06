@@ -28,7 +28,7 @@ TBD — update once the project technology stack and canonical commands are deci
 - `.flow/` — Turbine configuration (`config.toml`, `skills.toml`).
 - `skills/` — installed Flow Skills; each has a `SKILL.md`.
 - `signal/`, `explore/`, `govern/`, `evolve/` — phase-aligned context.
-- `work/` — active task workflow (managed by `dft task …`).
+- `working/` — active task workflow (managed by `dft task …`).
 
 ## Tooling
 
@@ -36,7 +36,7 @@ Managed by Turbine (`dft`). See **Tooling** in [AGENTS.md](AGENTS.md) for the fu
 
 ## Contributing
 
-- Use `dft task …` to create and move tasks; manage skills with `dft skills …`. Never edit `work/` stages by hand.
+- Use `dft task …` to create and move tasks; manage skills with `dft skills …`. Never edit `working/` stages by hand.
 - Commits follow [Conventional Commits](https://www.conventionalcommits.org/); see **Commits & Branches** in [AGENTS.md](AGENTS.md) for the change-type table.
 
 ## License

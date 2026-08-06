@@ -1,0 +1,42 @@
++++
+[sources]
+epic = "explore/epics/salesforce-sales-intelligence-epic-04-recommendations-follow-ups.md"
+documents = []
+
+[links]
+blocks = []
+related = []
+parent = []
+child = []
+
+[workflow]
+planned = ""
+spec_complete = ""
+implemented = ""
+impl_complete = ""
+completed = ""
+
+[assignments]
+planning = ""
+implementation = ""
+completed = ""
++++
+# DFT-0010: Implement pricing policy guardrails and approval workflow
+
+## Description
+
+Ensure pricing and discount guidance is advisory only, references company policy, and requires human approval for execution.
+
+## Acceptance Criteria
+
+- Pricing guidance cannot be executed automatically. `[FACT — PRD R12]`
+- Policy reminder is shown with every pricing recommendation. `[FACT — compliance]`
+- Violations of discount policy are blocked. `[FACT — ADR-004]`
+
+## Epic
+
+- `explore/epics/salesforce-sales-intelligence-epic-04-recommendations-follow-ups.md`
+
+## Priority
+
+High

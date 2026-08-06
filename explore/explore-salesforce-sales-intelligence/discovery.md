@@ -55,5 +55,5 @@ Pulled from the Explore Bundle. Update as artifacts close them.
 | 20260806 | Step 4 Part C | Consolidated risk register from discovery and PRD. |
 | 20260806 | Step 5 Part 1 | HLD approved and locked; ADRs accepted. |
 | 20260806 | Step 5 Part 2 | Test strategy and DevOps strategy created. |
-| 20260806 | Step 5 Part 3 | Epics formed; task stubs SDE-0001 to SDE-0013 created in `work/02-planning/`. |
+| 20260806 | Step 5 Part 3 | Epics formed; task stubs DFT-0001 to DFT-0013 created in `working/02-planning/`. |
 | 20260806 | Step 5 Part 4 | Govern Readiness Check completed with accepted gaps; discovery index marked PRD-READY. |
