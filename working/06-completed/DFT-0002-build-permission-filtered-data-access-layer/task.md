@@ -14,12 +14,12 @@ planned = ""
 spec_complete = ""
 implemented = "2026-08-07"
 impl_complete = "2026-08-07"
-completed = ""
+completed = "2026-08-07"
 
 [assignments]
 planning = ""
 implementation = "swapan011278@gmail.com"
-completed = ""
+completed = "swapan011278@gmail.com"
 +++
 # DFT-0002: Build permission-filtered data access layer
 
