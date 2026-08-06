@@ -20,6 +20,18 @@ related = [
 parent = []
 child = []
 
+
+[workflow]
+planned         = ""
+spec_complete   = ""
+implemented     = ""
+impl_complete   = ""
+completed       = "2026-08-07"
+
+[assignments]
+planning       = ""
+implementation = ""
+completed      = "swapan011278@gmail.com"
 +++
 
 # SDE-0001: Set up Salesforce Connected App and OAuth
