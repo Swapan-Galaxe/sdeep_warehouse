@@ -105,7 +105,8 @@ def main():
     print("Running smoke SOQL query...")
     query = build_smoke_query()
     url = f"{instance_url}/services/data/v62.0/query"
-    headers = {"Authorization": f"Bearer {tokens['access_token']}"}
+    access_token = refreshed.get("access_token", tokens["access_token"])
+    headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers, params={"q": query})
     if not response.ok:
         print("SOQL query failed:", response.status_code, response.text)
