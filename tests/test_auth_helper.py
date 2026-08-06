@@ -14,7 +14,26 @@ from auth_helper import (
 
 def test_build_authorize_url_includes_all_parameters():
     """Given config, build_authorize_url returns a URL with all required parameters."""
-    pytest.fail("Test skeleton - not implemented")
+    from urllib.parse import parse_qs, urlparse
+
+    config = {
+        "login_url": "https://test.salesforce.com",
+        "client_id": "abc",
+        "redirect_uri": "http://localhost:8000/auth/callback",
+        "scopes": "api refresh_token",
+    }
+    url = build_authorize_url(config)
+    parsed = urlparse(url)
+    query = parse_qs(parsed.query)
+
+    assert parsed.scheme == "https"
+    assert parsed.netloc == "test.salesforce.com"
+    assert parsed.path == "/services/oauth2/authorize"
+    assert query["response_type"] == ["code"]
+    assert query["client_id"] == ["abc"]
+    assert query["redirect_uri"] == ["http://localhost:8000/auth/callback"]
+    assert query["scope"] == ["api refresh_token"]
+    assert "state" in query and query["state"][0]
 
 
 def test_exchange_code_returns_tokens_on_success():

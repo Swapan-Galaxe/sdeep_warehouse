@@ -1,6 +1,8 @@
 """Salesforce OAuth helper stubs for SDE-0001."""
 
 import os
+import secrets
+import urllib.parse as _urlparse
 
 
 class SalesforceAuthError(Exception):
@@ -9,7 +11,15 @@ class SalesforceAuthError(Exception):
 
 def build_authorize_url(config):
     """Build Salesforce OAuth authorize URL."""
-    raise NotImplementedError
+    base = config["login_url"].rstrip("/")
+    params = {
+        "response_type": "code",
+        "client_id": config["client_id"],
+        "redirect_uri": config["redirect_uri"],
+        "scope": config["scopes"],
+        "state": secrets.token_urlsafe(16),
+    }
+    return f"{base}/services/oauth2/authorize?{_urlparse.urlencode(params)}"
 
 
 def exchange_code(config, code):
